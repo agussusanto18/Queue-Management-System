@@ -1,4 +1,4 @@
-```markdown
+
 # Queue Management System
 
 The Queue Management System is a web-based application designed to streamline the customer service process by efficiently managing queues in various service environments such as banks, hospitals, government agencies, and more. 
