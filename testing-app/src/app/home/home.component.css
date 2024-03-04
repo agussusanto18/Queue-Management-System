@@ -1,0 +1,45 @@
+.queue-number-item {
+    font-size:50px;
+    font-weight: bold;
+    text-align: center;
+    display: block;
+    margin: 10px 0;
+}
+
+.antrian-item {
+    font-size:20px;
+    text-align: center;
+    display: block;
+}
+
+.queue-number {
+    font-size:80px;
+    font-weight: bold;
+    text-align: center;
+    display: block;
+    margin: 20px 0;
+}
+
+.antrian {
+    font-size: 35px;
+    text-align: center;
+    display: block;
+}
+
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+}
+
+.grid-container2 {
+    margin-top: 20px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+}
+
+iframe {
+    width: 100%;
+    height: 350px;
+}

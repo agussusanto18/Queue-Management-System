@@ -1,0 +1,39 @@
+
+<div style="padding: 0 20px;">
+    <div class="grid-container">
+        <div class="grid-item">
+            <mat-card style="padding:30px 0;">
+                <mat-card-content>
+                    <span class="antrian">Queue</span>
+                    <hr style="margin-top: 20px;">
+                    <span class="queue-number">{{padNumberWithZeros(calledCustomer.queueNumber, 3)}}</span>
+                    <hr style="margin-bottom: 20px;">
+                    <span class="antrian">{{calledCustomer.counter.name}}</span>
+                </mat-card-content>
+            </mat-card>
+        </div>
+        <div class="grid-item">
+            <mat-card>
+                <mat-card-content>
+                    <iframe src="https://www.youtube.com/embed/vv301HCHuJ0?si=wCECKpoQrGGy6Wb5"
+                        title="YouTube video player" frameborder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                        allowfullscreen></iframe>
+                </mat-card-content>
+            </mat-card>
+        </div>
+    </div>
+
+    <div class="grid-container2">
+        <div class="grid-item" *ngFor="let customer of customers">
+            <mat-card>
+                <mat-card-content>
+                    <span class="antrian-item">Queue</span>
+                    <span class="queue-number-item">{{padNumberWithZeros(customer.queueNumber, 3)}}</span>
+                    <hr>
+                    <span class="antrian-item">{{customer.counter.name}}</span>
+                </mat-card-content>
+            </mat-card>
+        </div>
+    </div>
+</div>

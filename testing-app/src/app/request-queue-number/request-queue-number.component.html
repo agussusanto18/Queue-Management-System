@@ -1,0 +1,14 @@
+    <div class="ticket"  style="text-align: center;">
+        <div class="company-name">ALMEGATEX</div>
+        <hr style="height: 3px; background-color: black;">
+        <div>Nomor Antrian anda:</div>
+        <div class="ticket-info">{{ padNumberWithZeros(customer.queueNumber, 3) }}</div>
+        <div>Mohon Menunggu</div>
+        <ngx-barcode [bc-value]="12345678" [bc-display-value]="false"></ngx-barcode>
+        <div>{{changeDateFormat(customer.createdAt)}}</div>
+        <hr style="height: 3px; background-color: black;">
+        <div class="customer-message">Budayakan antri untuk kenyamanan bersama</div>
+        <div class="customer-message">Terima Kasih atas kunjungan anda</div>
+    </div>
+
+    <button mat-raised-button color="primary" (click)="printPage()" style="margin: 20px auto; display: block; ">Print</button>

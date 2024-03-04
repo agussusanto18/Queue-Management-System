@@ -1,0 +1,26 @@
+<mat-card style="margin: 20px;">
+    <mat-card-content style="padding: 20px;">
+        <form [formGroup]="counterForm" (ngSubmit)="onSubmit()">
+            <div class="grid-container">
+                <div class="grid-item">
+                    <mat-form-field class="example-full-width" appearance="outline">
+                        <mat-label>Name</mat-label>
+                        <input matInput placeholder="Name" formControlName="name">
+                    </mat-form-field>
+                </div>
+                <div class="grid-item">
+                    <mat-form-field class="example-full-width" appearance="outline">
+                        <mat-label>Status</mat-label>
+                        <mat-select formControlName="available">
+                            <mat-option value="1">Available</mat-option>
+                            <mat-option value="0">Not Available</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+            </div>
+
+            <button mat-raised-button color="primary" type="submit">Submit</button>
+
+        </form>
+    </mat-card-content>
+</mat-card>

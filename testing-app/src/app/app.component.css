@@ -1,0 +1,22 @@
+@import "~@angular/material/prebuilt-themes/indigo-pink.css";
+
+.example-spacer {
+    flex: 1 1 auto;
+}
+
+.spacer {
+    flex: 1 1 auto;
+}
+
+.mat-toolbar-row {
+    justify-content: space-between;
+}
+
+.mat-toolbar {
+    margin-bottom: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.fill-remaining-space {
+    margin: 0 20px;
+}

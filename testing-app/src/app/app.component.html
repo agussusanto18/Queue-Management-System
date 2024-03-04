@@ -1,0 +1,22 @@
+<mat-toolbar class="main-toolbar">
+    <span (click)="changePage('')">
+        Queue Management
+    </span>
+    <span class="fill-remaining-space"></span>
+    <button mat-button (click)="changePage('visitor-list')">Visitor List</button>
+    <button mat-button (click)="changePage('counter-list')">Counter List</button>
+    <button mat-button (click)="changePage('input-visitor-details')">Add new Visitor</button>
+    <span class="example-spacer"></span>
+    <span>{{currentDate}}</span>
+    <button mat-icon-button class="example-icon favorite-icon" aria-label="Example icon-button with heart icon">
+        
+    </button>
+    
+    <button mat-icon-button class="example-icon" aria-label="Example icon-button with share icon">
+        <mat-icon>account_circle</mat-icon>
+    </button>
+    <span>Admin</span>
+</mat-toolbar>
+
+
+<router-outlet></router-outlet>

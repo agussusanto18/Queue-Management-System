@@ -1,0 +1,27 @@
+@import "~@angular/material/prebuilt-themes/indigo-pink.css";
+
+/* mat-grid-tile {
+    height: auto !important;
+} */
+
+/* .mat-grid-tile-content {
+    height: auto !important;
+} */
+
+.example-form {
+    min-width: 150px;
+    max-width: 500px;
+    width: 100%;
+}
+
+.example-full-width {
+    width: 100%;
+} 
+
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    /* Two columns with equal width */
+    gap: 20px;
+    /* Adjust gap between items as needed */
+}

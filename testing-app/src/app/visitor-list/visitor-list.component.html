@@ -1,0 +1,88 @@
+<div style="padding: 0 20px;">
+
+    <mat-card>
+        <mat-card-content>
+            <button mat-raised-button color="primary" (click)="changePage('input-visitor-details')">Add New Visitor</button>
+
+            <table mat-table [dataSource]="dataSource">
+            
+                <!-- Counter Column -->
+                <ng-container matColumnDef="counter">
+                    <th mat-header-cell *matHeaderCellDef> Counter </th>
+                    <td mat-cell *matCellDef="let element"> 
+                        <span style="background-color: mediumslateblue; padding: 6px; color: white; border-radius: 3px;">
+                            {{element.counter.name}}
+                        </span>
+                    </td>
+                </ng-container>
+
+                <!-- Name Column -->
+                <ng-container matColumnDef="name">
+                    <th mat-header-cell *matHeaderCellDef> Name </th>
+                    <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+                </ng-container>
+            
+                <!-- Phone Number Column -->
+                <ng-container matColumnDef="phoneNumber">
+                    <th mat-header-cell *matHeaderCellDef> Phone Number </th>
+                    <td mat-cell *matCellDef="let element"> {{element.phoneNumber}} </td>
+                </ng-container>
+            
+                <!-- Queue Number Column -->
+                <ng-container matColumnDef="queueNumber">
+                    <th mat-header-cell *matHeaderCellDef> Queue Number </th>
+                    <td mat-cell *matCellDef="let element"> <b>{{padNumberWithZeros(element.queueNumber, 3)}}</b> </td>
+                </ng-container>
+            
+                <!-- Address Column -->
+                <ng-container matColumnDef="address">
+                    <th mat-header-cell *matHeaderCellDef> Address </th>
+                    <td mat-cell *matCellDef="let element"> {{element.address}} </td>
+                </ng-container>
+            
+                <!-- Date of Birth Column -->
+                <ng-container matColumnDef="dateOfBirth">
+                    <th mat-header-cell *matHeaderCellDef> Date of Birth </th>
+                    <td mat-cell *matCellDef="let element"> {{ changeDateFormat(element.dateOfBirth, 'MM/dd/yyy') }} </td>
+                </ng-container>
+            
+                <!-- Gender Column -->
+                <ng-container matColumnDef="gender">
+                    <th mat-header-cell *matHeaderCellDef> Gender </th>
+                    <td mat-cell *matCellDef="let element"> {{element.gender}} </td>
+                </ng-container>
+        
+                <!-- Insurance Information Column -->
+                <ng-container matColumnDef="insuranceInformation">
+                    <th mat-header-cell *matHeaderCellDef> Insurance Information </th>
+                    <td mat-cell *matCellDef="let element"> {{element.insuranceInformation.policyNumber}} </td>
+                </ng-container>
+            
+                <!-- Created At Column -->
+                <ng-container matColumnDef="createdAt">
+                    <th mat-header-cell *matHeaderCellDef> Created At </th>
+                    <td mat-cell *matCellDef="let element"> {{ changeDateFormat(element.createdAt) }} </td>
+                </ng-container>
+            
+                <!-- Action Column -->
+                <ng-container matColumnDef="_id">
+                    <th mat-header-cell *matHeaderCellDef> Action </th>
+                    <td mat-cell *matCellDef="let element">
+                        <button mat-raised-button (click)="delete(element._id)">Delete</button>
+                        <button mat-raised-button (click)="changePage('request-queue-number/'+element._id)">Print</button>
+                        <button mat-raised-button (click)="callCustomer(element._id)" [disabled]="element.callId>0">Call</button>
+                    </td>
+                </ng-container>
+            
+                <!-- Header and Row Definitions -->
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            </table>
+            
+            
+            <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons aria-label="Select page of periodic elements">
+            </mat-paginator>
+        </mat-card-content>
+    </mat-card>
+
+</div>
