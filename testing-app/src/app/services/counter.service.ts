@@ -6,23 +6,23 @@ import { Observable } from 'rxjs';
     providedIn: 'root'
 })
 export class CounterService {
+    private baseUrl = 'http://localhost:3000/counters';
 
     constructor(private http: HttpClient) { }
 
     getCounters(): Observable<any[]> {
-        return this.http.get<any[]>('http://localhost:3000/counters');
+        return this.http.get<any[]>(`${this.baseUrl}`);
     }
 
-    getCounterById(id: String): Observable<any[]> {
-        return this.http.get<any>(`http://localhost:3000/counters/${id}`);
+    getCounterById(id: string): Observable<any> {
+        return this.http.get<any>(`${this.baseUrl}/${id}`);
     }
 
     createCounter(data: any): Observable<any> {
-        return this.http.post<any>('http://localhost:3000/counters', data);
+        return this.http.post<any>(`${this.baseUrl}`, data);
     }
 
-    deleteCounter(id: String): Observable<any> {
-        return this.http.delete<any>(`http://localhost:3000/counters/${id}`);
+    deleteCounter(id: string): Observable<any> {
+        return this.http.delete<any>(`${this.baseUrl}/${id}`);
     }
-
 }

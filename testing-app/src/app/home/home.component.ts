@@ -7,34 +7,29 @@ import { CustomerService } from '../services/customer.service';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
-
   customers: any[];
-
   calledCustomer: any;
 
   constructor(private customerService: CustomerService) { }
 
   ngOnInit(): void {
-    this.getUncalledCustomers();
-    this.getCalledCustomer();
+    this.loadCustomers();
+    this.loadCalledCustomer();
   }
 
-  getUncalledCustomers(){
+  loadCustomers(): void {
     this.customerService.getUncalledCustomers().subscribe(data => {
       this.customers = data;
-      console.log(this.customers);
-      
     });
   }
 
-  getCalledCustomer() {
+  loadCalledCustomer(): void {
     this.customerService.getCalledCustomer().subscribe(data => {
       this.calledCustomer = data;
     });
   }
 
-  padNumberWithZeros(number, length) {
+  padNumberWithZeros(number: number, length: number): string {
     return number.toString().padStart(length, '0');
   }
-
 }

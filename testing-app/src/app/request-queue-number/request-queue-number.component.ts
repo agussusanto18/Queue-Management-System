@@ -22,13 +22,13 @@ export class RequestQueueNumberComponent implements OnInit {
     this.getCustomerById(this.id);
   }
 
-  getCustomerById(id: String) {
+  getCustomerById(id: string) {
     this.customerService.getCustomerById(id).subscribe(data => {
       this.customer = data;
     });
   }
 
-  changeDateFormat(date: String, timeFormat: string = "MM/dd/yyyy hh:mm a"): String {
+  changeDateFormat(date: string, timeFormat: string = "MM/dd/yyyy hh:mm a"): string {
     const datePipe = new DatePipe('en-US');
     return datePipe.transform(date, timeFormat);
   }

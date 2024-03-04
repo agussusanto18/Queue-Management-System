@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { CustomerService } from '../services/customer.service';
 import { Router } from '@angular/router';
+import { CustomerService } from '../services/customer.service';
 
 @Component({
   selector: 'app-input-visitor-details',
@@ -9,12 +9,25 @@ import { Router } from '@angular/router';
   styleUrls: ['./input-visitor-details.component.css']
 })
 export class InputVisitorDetailsComponent implements OnInit {
-
   customerForm: FormGroup;
 
-  constructor(private router: Router, private formBuilder: FormBuilder, private customerService: CustomerService) { }
+  constructor(
+    private router: Router,
+    private formBuilder: FormBuilder,
+    private customerService: CustomerService
+  ) { }
 
   ngOnInit(): void {
+    this.initializeForm();
+  }
+
+  onSubmit(): void {
+    if (this.customerForm.valid) {
+      this.createCustomer();
+    }
+  }
+
+  private initializeForm(): void {
     this.customerForm = this.formBuilder.group({
       name: ['', Validators.required],
       phoneNumber: ['', Validators.required],
@@ -36,19 +49,15 @@ export class InputVisitorDetailsComponent implements OnInit {
     });
   }
 
-  onSubmit(): void {
-    if (this.customerForm.valid) {
-      this.create();
-    }
+  private createCustomer(): void {
+    this.customerService.createCustomer(this.customerForm.value).subscribe(
+      () => {
+        this.router.navigate(['/visitor-list']);
+      },
+      err => {
+        console.error(err);
+        alert('An error occurred');
+      }
+    );
   }
-
-  create(): void {
-    this.customerService.createCustomer(this.customerForm.value).subscribe(() => {
-      this.router.navigate(['/visitor-list']);
-    }, err => {
-      console.log(err);
-      alert('An error occured');
-    });
-  }
-
 }

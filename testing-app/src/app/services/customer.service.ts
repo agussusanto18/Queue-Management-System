@@ -6,35 +6,35 @@ import { Observable } from 'rxjs';
     providedIn: 'root'
 })
 export class CustomerService {
+    private baseUrl = 'http://localhost:3000/customers';
 
     constructor(private http: HttpClient) { }
 
     getCustomers(): Observable<any[]> {
-        return this.http.get<any[]>('http://localhost:3000/customers');
+        return this.http.get<any[]>(`${this.baseUrl}`);
     }
 
-    getCustomerById(id: String): Observable<any[]> {
-        return this.http.get<any>(`http://localhost:3000/customers/${id}`);
+    getCustomerById(id: string): Observable<any> {
+        return this.http.get<any>(`${this.baseUrl}/${id}`);
     }
 
     createCustomer(data: any): Observable<any> {
-        return this.http.post<any>('http://localhost:3000/customers', data);
+        return this.http.post<any>(`${this.baseUrl}`, data);
     }
 
-    deleteCustomer(id: String): Observable<any> {
-        return this.http.delete<any>(`http://localhost:3000/customers/${id}`);
+    deleteCustomer(id: string): Observable<any> {
+        return this.http.delete<any>(`${this.baseUrl}/${id}`);
     }
 
-    callCustomer(id: String): Observable<any> {
-        return this.http.get<any>(`http://localhost:3000/customers/call/${id}`);
+    callCustomer(id: string): Observable<any> {
+        return this.http.get<any>(`${this.baseUrl}/call/${id}`);
     }
 
     getUncalledCustomers(): Observable<any[]> {
-        return this.http.get<any[]>('http://localhost:3000/customers/uncalled');
+        return this.http.get<any[]>(`${this.baseUrl}/uncalled`);
     }
 
-    getCalledCustomer(): Observable<any[]> {
-        return this.http.get<any>('http://localhost:3000/customers/called');
+    getCalledCustomer(): Observable<any> {
+        return this.http.get<any>(`${this.baseUrl}/called`);
     }
-
 }

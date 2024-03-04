@@ -1,25 +1,28 @@
 const Counter = require('../models/Counter');
 
+const handleServerError = (res, err) => {
+    console.error(err);
+    res.status(500).json({ message: 'Server Error' });
+};
+
 exports.getAllCounters = async (req, res) => {
     try {
         const counters = await Counter.find().sort({ queueNumber: 1 });
         res.json(counters);
     } catch (err) {
-        console.log(err);
-        res.status(500).json({ message: 'Server Error' });
+        handleServerError(res, err);
     }
 };
 
 exports.getCounterById = async (req, res) => {
     try {
-        const counters = await Counter.findById(req.params.id);
-        if (!counters) {
-            return res.status(400).json({ message: 'Counters not found'});
+        const counter = await Counter.findById(req.params.id);
+        if (!counter) {
+            return res.status(404).json({ message: 'Counter not found' });
         }
-        res.json(customer);
+        res.json(counter);
     } catch (err) {
-        console.log(err);
-        res.status(500).json({message: 'Server Error'});
+        handleServerError(res, err);
     }
 };
 
@@ -30,8 +33,7 @@ exports.addCounter = async (req, res) => {
         await counter.save();
         res.status(201).json(counter);
     } catch (err) {
-        console.log(err);
-        res.status(500).json({message: 'Server error'});
+        handleServerError(res, err);
     }
 };
 
@@ -39,12 +41,11 @@ exports.removeCounter = async (req, res) => {
     try {
         const counter = await Counter.findById(req.params.id);
         if (!counter) {
-            return res.status(404).json({ message: 'Counter not found'});
+            return res.status(404).json({ message: 'Counter not found' });
         }
         await counter.remove();
-        res.json({ message: 'Counter removed from queue'});
+        res.json({ message: 'Counter removed from queue' });
     } catch (err) {
-        console.log(err);
-        res.status(500).json({ message: 'Server error' });
+        handleServerError(res, err);
     }
 };
