@@ -1,92 +1,101 @@
 <mat-card style="margin: 20px;">
     <mat-card-content style="padding: 20px;">
-    <form [formGroup]="customerForm" (ngSubmit)="onSubmit()">
-        <div class="grid-container">
-            <div class="grid-item">
-                    <mat-form-field class="example-full-width" appearance="outline">
-                        <mat-label>Name</mat-label>
-                        <input matInput placeholder="Name" formControlName="name">
-                    </mat-form-field>
-                
-                    <mat-form-field class="example-full-width" appearance="outline">
-                        <mat-label>Name</mat-label>
-                        <input matInput placeholder="Name" formControlName="name">
-                    </mat-form-field>
-                
-                    <mat-form-field class="example-full-width" appearance="outline">
-                        <mat-label>Phone Number</mat-label>
-                        <input matInput placeholder="Phone Number" formControlName="phoneNumber">
-                    </mat-form-field>
-                
-                    <mat-form-field class="example-full-width" appearance="outline">
-                        <mat-label>Address</mat-label>
-                        <input matInput placeholder="Address" formControlName="address">
-                    </mat-form-field>
-                
-                    <mat-form-field class="example-full-width" appearance="outline">
-                        <mat-label>Date of Birth</mat-label>
-                        <input matInput [matDatepicker]="dobPicker" placeholder="Date of Birth" formControlName="dateOfBirth">
-                        <mat-datepicker-toggle matSuffix [for]="dobPicker"></mat-datepicker-toggle>
-                        <mat-datepicker #dobPicker></mat-datepicker>
-                    </mat-form-field>
-                
-                    <mat-form-field class="example-full-width" appearance="outline">
-                        <mat-label>Gender</mat-label>
-                        <mat-select formControlName="gender">
-                            <mat-option value="male">Male</mat-option>
-                            <mat-option value="famale">Famale</mat-option>
-                        </mat-select>
-                    </mat-form-field>
-                
-                    <mat-form-field class="example-full-width" appearance="outline">
-                        <mat-label>Occupation</mat-label>
-                        <input matInput placeholder="Occupation" formControlName="occupation">
-                    </mat-form-field>
-            </div>
-            <div class="grid-item">
-                <div formGroupName="emergencyContact">
-                    <mat-form-field class="example-full-width" appearance="outline">
-                        <mat-label>Emergency Contact Name</mat-label>
-                        <input matInput placeholder="Emergency Contact Name" formControlName="name">
-                    </mat-form-field>
-                
-                    <mat-form-field class="example-full-width" appearance="outline">
-                        <mat-label>Emergency Contact Relationship</mat-label>
-                        <input matInput placeholder="Emergency Contact Relationship" formControlName="relationship">
-                    </mat-form-field>
-                
-                    <mat-form-field class="example-full-width" appearance="outline">
-                        <mat-label>Emergency Contact Phone Number</mat-label>
-                        <input matInput placeholder="Emergency Contact Phone Number" formControlName="phoneNumber">
-                    </mat-form-field>
-                </div>
-                
-                <div formGroupName="insuranceInformation">
-                    <mat-form-field class="example-full-width" appearance="outline">
-                        <mat-label>Insurance Provider</mat-label>
-                        <input matInput placeholder="Insurance Provider" formControlName="provider">
-                    </mat-form-field>
-                
-                    <mat-form-field class="example-full-width" appearance="outline">
-                        <mat-label>Insurance Policy Number</mat-label>
-                        <input matInput placeholder="Insurance Policy Number" formControlName="policyNumber">
-                    </mat-form-field>
-                </div>
-                
-                <mat-form-field class="example-full-width" appearance="outline">
-                    <mat-label>Medical History</mat-label>
-                    <input matInput placeholder="Medical History" formControlName="medicalHistory">
-                </mat-form-field>
-                
-                <mat-form-field class="example-full-width" appearance="outline">
-                    <mat-label>Marital Status</mat-label>
-                    <input matInput placeholder="Marital Status" formControlName="maritalStatus">
-                </mat-form-field>
-            </div>
+
+        <div *ngIf="counters.length == 0" style="text-align: center;">
+            <p>You don't have a counter yet, please add a counter first</p><br>
+            <button mat-raised-button color="primary" (click)="changePage('input-counter')" type="submit">Add new Counter</button>
         </div>
 
-        <button mat-raised-button color="primary" type="submit">Submit</button>
-
-    </form>
+        <div *ngIf="counters.length > 0">
+            <form [formGroup]="customerForm" (ngSubmit)="onSubmit()">
+                <div class="grid-container">
+                    <div class="grid-item">
+                        <mat-form-field class="example-full-width" appearance="outline">
+                            <mat-label>Name</mat-label>
+                            <input matInput placeholder="Name" formControlName="name">
+                        </mat-form-field>
+            
+                        <mat-form-field class="example-full-width" appearance="outline">
+                            <mat-label>Name</mat-label>
+                            <input matInput placeholder="Name" formControlName="name">
+                        </mat-form-field>
+            
+                        <mat-form-field class="example-full-width" appearance="outline">
+                            <mat-label>Phone Number</mat-label>
+                            <input matInput placeholder="Phone Number" formControlName="phoneNumber">
+                        </mat-form-field>
+            
+                        <mat-form-field class="example-full-width" appearance="outline">
+                            <mat-label>Address</mat-label>
+                            <input matInput placeholder="Address" formControlName="address">
+                        </mat-form-field>
+            
+                        <mat-form-field class="example-full-width" appearance="outline">
+                            <mat-label>Date of Birth</mat-label>
+                            <input matInput [matDatepicker]="dobPicker" placeholder="Date of Birth" formControlName="dateOfBirth">
+                            <mat-datepicker-toggle matSuffix [for]="dobPicker"></mat-datepicker-toggle>
+                            <mat-datepicker #dobPicker></mat-datepicker>
+                        </mat-form-field>
+            
+                        <mat-form-field class="example-full-width" appearance="outline">
+                            <mat-label>Gender</mat-label>
+                            <mat-select formControlName="gender">
+                                <mat-option value="male">Male</mat-option>
+                                <mat-option value="famale">Famale</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+            
+                        <mat-form-field class="example-full-width" appearance="outline">
+                            <mat-label>Occupation</mat-label>
+                            <input matInput placeholder="Occupation" formControlName="occupation">
+                        </mat-form-field>
+                    </div>
+                    <div class="grid-item">
+                        <div formGroupName="emergencyContact">
+                            <mat-form-field class="example-full-width" appearance="outline">
+                                <mat-label>Emergency Contact Name</mat-label>
+                                <input matInput placeholder="Emergency Contact Name" formControlName="name">
+                            </mat-form-field>
+            
+                            <mat-form-field class="example-full-width" appearance="outline">
+                                <mat-label>Emergency Contact Relationship</mat-label>
+                                <input matInput placeholder="Emergency Contact Relationship" formControlName="relationship">
+                            </mat-form-field>
+            
+                            <mat-form-field class="example-full-width" appearance="outline">
+                                <mat-label>Emergency Contact Phone Number</mat-label>
+                                <input matInput placeholder="Emergency Contact Phone Number" formControlName="phoneNumber">
+                            </mat-form-field>
+                        </div>
+            
+                        <div formGroupName="insuranceInformation">
+                            <mat-form-field class="example-full-width" appearance="outline">
+                                <mat-label>Insurance Provider</mat-label>
+                                <input matInput placeholder="Insurance Provider" formControlName="provider">
+                            </mat-form-field>
+            
+                            <mat-form-field class="example-full-width" appearance="outline">
+                                <mat-label>Insurance Policy Number</mat-label>
+                                <input matInput placeholder="Insurance Policy Number" formControlName="policyNumber">
+                            </mat-form-field>
+                        </div>
+            
+                        <mat-form-field class="example-full-width" appearance="outline">
+                            <mat-label>Medical History</mat-label>
+                            <input matInput placeholder="Medical History" formControlName="medicalHistory">
+                        </mat-form-field>
+            
+                        <mat-form-field class="example-full-width" appearance="outline">
+                            <mat-label>Marital Status</mat-label>
+                            <input matInput placeholder="Marital Status" formControlName="maritalStatus">
+                        </mat-form-field>
+                    </div>
+                </div>
+            
+                <button mat-raised-button color="primary" type="submit">Submit</button>
+            
+            </form>
+        </div>
+    
     </mat-card-content>
 </mat-card>

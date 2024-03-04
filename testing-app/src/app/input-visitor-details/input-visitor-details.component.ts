@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { CustomerService } from '../services/customer.service';
+import { CounterService } from '../services/counter.service';
 
 @Component({
   selector: 'app-input-visitor-details',
@@ -10,15 +11,18 @@ import { CustomerService } from '../services/customer.service';
 })
 export class InputVisitorDetailsComponent implements OnInit {
   customerForm: FormGroup;
+  counters: any[];
 
   constructor(
     private router: Router,
     private formBuilder: FormBuilder,
-    private customerService: CustomerService
+    private customerService: CustomerService,
+    private counterService: CounterService
   ) { }
 
   ngOnInit(): void {
     this.initializeForm();
+    this.loadDataCounters();
   }
 
   onSubmit(): void {
@@ -59,5 +63,15 @@ export class InputVisitorDetailsComponent implements OnInit {
         alert('An error occurred');
       }
     );
+  }
+
+  loadDataCounters(): void {
+    this.counterService.getCounters().subscribe(data => {
+      this.counters = data;
+    });
+  }
+
+  changePage(path) {
+    this.router.navigate(['/' + path]);
   }
 }

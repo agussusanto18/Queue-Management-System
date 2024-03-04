@@ -26,6 +26,11 @@ export class HomeComponent implements OnInit {
   loadCalledCustomer(): void {
     this.customerService.getCalledCustomer().subscribe(data => {
       this.calledCustomer = data;
+
+      console.log("-------------------");
+      
+      console.log(this.calledCustomer);
+      
     });
   }
 
