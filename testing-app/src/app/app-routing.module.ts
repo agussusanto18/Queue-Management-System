@@ -8,15 +8,19 @@ import { VisitorListComponent } from './visitor-list/visitor-list.component';
 import { HomeComponent } from './home/home.component';
 import { CounterListComponent } from './counter-list/counter-list.component';
 import { InputCounterComponent } from './input-counter/input-counter.component';
+import { LoginComponent } from './login/login.component';
+import { AuthGuard } from './auth.guard';
+import { AuthGuardLogin } from './auth-login.guard';
 
 const routes: Routes = [
-  {path: '', component: HomeComponent},
-  {path: 'request-queue-number/:id', component: RequestQueueNumberComponent},
-  {path: 'input-visitor-details', component: InputVisitorDetailsComponent},
-  {path: 'visitor-list', component: VisitorListComponent},
-  {path: 'counter-list', component: CounterListComponent},
-  {path: 'input-counter', component: InputCounterComponent},
-  {path: 'guide', component: MenuComponent}
+  { path: '', component: HomeComponent},
+  { path: 'request-queue-number/:id', component: RequestQueueNumberComponent, canActivate: [AuthGuard] },
+  { path: 'input-visitor-details', component: InputVisitorDetailsComponent, canActivate: [AuthGuard] },
+  { path: 'visitor-list', component: VisitorListComponent, canActivate: [AuthGuard] },
+  { path: 'counter-list', component: CounterListComponent, canActivate: [AuthGuard] },
+  { path: 'input-counter', component: InputCounterComponent},
+  { path: 'guide', component: MenuComponent},
+  { path: 'signin', component: LoginComponent, canActivate: [AuthGuardLogin] }
 ];
 
 @NgModule({

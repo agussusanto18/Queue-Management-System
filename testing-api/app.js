@@ -11,6 +11,7 @@ const WebSocket = require('ws');
 var indexRouter = require('./routes/index');
 var customersRouter = require('./routes/customers');
 var countersRouter = require('./routes/counters');
+var authRouter = require('./routes/auth');
 
 
 var app = express();
@@ -49,7 +50,7 @@ wss.on('connection', (ws) => {
 
   ws.on('message', (message) => {
     console.log('Received: %s', message);
-    
+
     wss.clients.forEach((client) => {
       if (client !== ws && client.readyState === WebSocket.OPEN) {
         client.send(message);
@@ -73,6 +74,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 app.use('/customers', customersRouter);
 app.use('/counters', countersRouter);
+app.use('/auth', authRouter);
 
 
 // catch 404 and forward to error handler

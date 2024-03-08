@@ -25,6 +25,10 @@ The Queue Management System is a web-based application designed to streamline th
 
 ![Screenshot 5](/imgs/5.png)
 
+### Screenshot 6
+
+![Screenshot 6](/imgs/6.png)
+
 ## Installation
 
 Follow these steps to install and run the project locally.

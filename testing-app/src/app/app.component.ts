@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { Router } from '@angular/router';
+import { AuthService } from './services/auth.service';
 
 @Component({
   selector: 'app-root',
@@ -12,7 +13,8 @@ export class AppComponent implements OnInit{
   currentDate: string;
 
   constructor(
-    private router: Router
+    private router: Router,
+    private authService: AuthService
   ) { }
 
   ngOnInit() {
@@ -29,5 +31,10 @@ export class AppComponent implements OnInit{
 
   changePage(path) {
     this.router.navigate(['/' + path]);
+  }
+
+  logout(){
+    this.authService.logout();
+    this.router.navigate(['/']);
   }
 }

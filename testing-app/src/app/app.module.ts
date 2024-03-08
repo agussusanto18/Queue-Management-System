@@ -13,7 +13,7 @@ import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
 import { MatCardModule } from '@angular/material/card';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
@@ -25,6 +25,11 @@ import { NgxBarcodeModule } from 'ngx-barcode';
 import { HomeComponent } from './home/home.component';
 import { CounterListComponent } from './counter-list/counter-list.component';
 import { InputCounterComponent } from './input-counter/input-counter.component';
+import { LoginComponent } from './login/login.component';
+import { AuthGuard } from './auth.guard';
+import { AuthGuardLogin } from './auth-login.guard';
+import { JwtInterceptor } from './jwt.interceptor';
+
 
 @NgModule({
   declarations: [
@@ -35,7 +40,8 @@ import { InputCounterComponent } from './input-counter/input-counter.component';
     VisitorListComponent,
     HomeComponent,
     CounterListComponent,
-    InputCounterComponent
+    InputCounterComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
@@ -57,7 +63,9 @@ import { InputCounterComponent } from './input-counter/input-counter.component';
     NgxBarcodeModule
   ],
   providers: [
-    { provide: APP_BASE_HREF, useValue: '/' },
+    AuthGuard,
+    AuthGuardLogin,
+    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true }
   ],
   bootstrap: [AppComponent]
 })
