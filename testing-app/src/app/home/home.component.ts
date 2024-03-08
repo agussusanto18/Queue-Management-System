@@ -9,12 +9,21 @@ import { CustomerService } from '../services/customer.service';
 export class HomeComponent implements OnInit {
   customers: any[];
   calledCustomer: any;
+  private socket: WebSocket;
+  private readonly SERVER_URL = 'ws://127.0.0.1:3000';
 
   constructor(private customerService: CustomerService) { }
 
   ngOnInit(): void {
+    this.socket = new WebSocket(this.SERVER_URL);
+
     this.loadCustomers();
     this.loadCalledCustomer();
+
+    this.socket.onmessage = (event) => {
+      this.loadCustomers();
+      this.loadCalledCustomer();
+    }
   }
 
   loadCustomers(): void {
@@ -25,12 +34,9 @@ export class HomeComponent implements OnInit {
 
   loadCalledCustomer(): void {
     this.customerService.getCalledCustomer().subscribe(data => {
-      this.calledCustomer = data;
-
-      console.log("-------------------");
-      
-      console.log(this.calledCustomer);
-      
+      if (data.callId > 0){
+        this.calledCustomer = data
+      }
     });
   }
 

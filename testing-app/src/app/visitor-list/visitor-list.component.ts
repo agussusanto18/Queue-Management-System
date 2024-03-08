@@ -12,6 +12,9 @@ import { DatePipe } from '@angular/common';
 })
 export class VisitorListComponent implements OnInit {
 
+  private socket: WebSocket;
+  private readonly SERVER_URL = 'ws://127.0.0.1:3000';
+
   displayedColumns: string[] = [
     "counter",
     "name",
@@ -31,6 +34,7 @@ export class VisitorListComponent implements OnInit {
   constructor(private router: Router, private customerService: CustomerService) { }
 
   ngOnInit(): void {
+    this.socket = new WebSocket(this.SERVER_URL);
     this.loadData();
   }
 
@@ -67,7 +71,8 @@ export class VisitorListComponent implements OnInit {
     if (window.confirm('Do you want to call this Customer?')) {
       this.customerService.callCustomer(id).subscribe((res) => {
         this.loadData();
-      })
+        console.log(this.socket.send(`customer with id ${id} called`));
+      });
     }
   }
 

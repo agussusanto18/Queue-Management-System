@@ -5,6 +5,8 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 const mongoose = require('mongoose');
 const cors = require('cors');
+const http = require('http');
+const WebSocket = require('ws');
 
 var indexRouter = require('./routes/index');
 var customersRouter = require('./routes/customers');
@@ -29,8 +31,7 @@ app.set('view engine', 'jade');
 
 app.use(logger('dev'));
 app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
-const http = require('http');
+app.use(express.urlencoded({ extended: false }))
 
 const hostname = '127.0.0.1';
 const port = 3000;
@@ -40,6 +41,27 @@ const server = http.createServer((req, res) => {
   res.setHeader('Content-Type', 'text/plain');
   res.end('Hello World');
 });
+
+const wss = new WebSocket.Server({ server });
+
+wss.on('connection', (ws) => {
+  console.log('A client connected');
+
+  ws.on('message', (message) => {
+    console.log('Received: %s', message);
+    
+    wss.clients.forEach((client) => {
+      if (client !== ws && client.readyState === WebSocket.OPEN) {
+        client.send(message);
+      }
+    });
+  });
+
+  ws.on('close', () => {
+    console.log('A client disconnected');
+  });
+});
+
 
 server.listen(port, hostname, () => {
   console.log(`Server running at http://${hostname}:${port}/`);
