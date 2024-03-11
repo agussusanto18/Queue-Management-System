@@ -1,16 +1,13 @@
 const Counter = require('../models/Counter');
+const errorHandlers = require('../errorHandlers');
 
-const handleServerError = (res, err) => {
-    console.error(err);
-    res.status(500).json({ message: 'Server Error' });
-};
 
 exports.getAllCounters = async (req, res) => {
     try {
         const counters = await Counter.find().sort({ queueNumber: 1 });
         res.json(counters);
     } catch (err) {
-        handleServerError(res, err);
+        errorHandlers.generalErrorHandler(res, 500);
     }
 };
 
@@ -18,11 +15,12 @@ exports.getCounterById = async (req, res) => {
     try {
         const counter = await Counter.findById(req.params.id);
         if (!counter) {
-            return res.status(404).json({ message: 'Counter not found' });
+            errorHandlers.generalErrorHandler(res, 404, 'Counter not found');
+        } else {
+            res.status(200).json(counter);
         }
-        res.json(counter);
     } catch (err) {
-        handleServerError(res, err);
+        errorHandlers.generalErrorHandler(res, 500);
     }
 };
 
@@ -33,7 +31,7 @@ exports.addCounter = async (req, res) => {
         await counter.save();
         res.status(201).json(counter);
     } catch (err) {
-        handleServerError(res, err);
+        errorHandlers.generalErrorHandler(res, 500);
     }
 };
 
@@ -41,11 +39,12 @@ exports.removeCounter = async (req, res) => {
     try {
         const counter = await Counter.findById(req.params.id);
         if (!counter) {
-            return res.status(404).json({ message: 'Counter not found' });
+            errorHandlers.generalErrorHandler(res, 404, 'Counter not found');
+        } else {
+            await counter.remove();
+            res.status(200).json({ message: 'Counter removed from queue' });
         }
-        await counter.remove();
-        res.json({ message: 'Counter removed from queue' });
     } catch (err) {
-        handleServerError(res, err);
+        errorHandlers.generalErrorHandler(res, 500);
     }
 };
