@@ -15,7 +15,7 @@ exports.getCustomerById = async (req, res) => {
     try {
         const customer = await Customer.findById(req.params.id);
         if (!customer) {
-            errorHandlers.handleErrorMessage(res, err, 404, 'Customer not found');
+            errorHandlers.generalErrorHandler(res, 404, 'Customer not found');
         } else {
             res.status(200).json(customer);
         }

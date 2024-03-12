@@ -49,17 +49,6 @@ app.use('/customers', customersRouter);
 app.use('/counters', countersRouter);
 app.use('/auth', authRouter);
 
-// Error handling middleware
-// app.use(function (err, req, res, next) {
-//   // Set locals, only providing error in development
-//   res.locals.message = err.message;
-//   res.locals.error = req.app.get('env') === 'development' ? err : {};
-
-//   // Render the error page
-//   res.status(err.status || 500);
-//   res.render('error');
-// });
-
 // Set up HTTP server
 const server = http.createServer(app);
 const hostname = '127.0.0.1';
