@@ -1,7 +1,8 @@
 import { DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { CustomerService } from '../services/customer.service';
+import { CustomerService } from '../../services/customer.service';
+import { CustomerResponse } from '../../models/responses/customer';
 
 @Component({
   selector: 'app-request-queue-number',
@@ -10,7 +11,7 @@ import { CustomerService } from '../services/customer.service';
 })
 export class RequestQueueNumberComponent implements OnInit {
   id: string;
-  customer: any;
+  customer: CustomerResponse;
 
   constructor(private route: ActivatedRoute, private customerService: CustomerService) { }
 
@@ -23,7 +24,7 @@ export class RequestQueueNumberComponent implements OnInit {
   }
 
   getCustomerById(id: string) {
-    this.customerService.getCustomerById(id).subscribe(data => {
+    this.customerService.getCustomerById(id).subscribe((data: CustomerResponse) => {
       this.customer = data;
     });
   }

@@ -1,10 +1,10 @@
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator, } from '@angular/material/paginator';
 import { MatTableDataSource, } from '@angular/material/table';
-import { CustomerService } from '../services/customer.service';
+import { CustomerService } from '../../services/customer.service';
 import { Router } from '@angular/router';
 import { DatePipe } from '@angular/common';
-import { CustomerResponse } from '../models/responses/customer';
+import { CustomerResponse } from '../../models/responses/customer';
 
 
 @Component({

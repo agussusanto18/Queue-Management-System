@@ -1,9 +1,7 @@
-// login.component.ts
-
 import { Component } from '@angular/core';
-import { AuthService } from '../services/auth.service';
+import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
-import { SignInResponse, SignInRequest } from '../models/responses/signin';
+import { SignInResponse, SignInRequest } from '../../models/responses/signin';
 
 @Component({
   selector: 'app-login',

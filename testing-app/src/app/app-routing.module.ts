@@ -1,14 +1,14 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { AppComponent } from './app.component';
-import { InputVisitorDetailsComponent } from './input-visitor-details/input-visitor-details.component';
-import { MenuComponent } from './menu/menu.component';
-import { RequestQueueNumberComponent } from './request-queue-number/request-queue-number.component';
-import { VisitorListComponent } from './visitor-list/visitor-list.component';
-import { HomeComponent } from './home/home.component';
-import { CounterListComponent } from './counter-list/counter-list.component';
-import { InputCounterComponent } from './input-counter/input-counter.component';
-import { LoginComponent } from './login/login.component';
+import { InputVisitorDetailsComponent } from './pages/input-visitor-details/input-visitor-details.component';
+import { MenuComponent } from './pages/menu/menu.component';
+import { RequestQueueNumberComponent } from './pages/request-queue-number/request-queue-number.component';
+import { VisitorListComponent } from './pages/visitor-list/visitor-list.component';
+import { HomeComponent } from './pages/home/home.component';
+import { CounterListComponent } from './pages/counter-list/counter-list.component';
+import { InputCounterComponent } from './pages/input-counter/input-counter.component';
+import { LoginComponent } from './pages/login/login.component';
 import { AuthGuard } from './auth.guard';
 import { AuthGuardLogin } from './auth-login.guard';
 

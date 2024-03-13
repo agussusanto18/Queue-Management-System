@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { CustomerService } from '../services/customer.service';
-import { CounterService } from '../services/counter.service';
-import { CustomerRequest } from '../models/responses/customer';
+import { CustomerService } from '../../services/customer.service';
+import { CounterService } from '../../services/counter.service';
 
 @Component({
   selector: 'app-input-visitor-details',

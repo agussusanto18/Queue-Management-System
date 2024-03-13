@@ -1,9 +1,9 @@
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
-import { CounterService } from '../services/counter.service';
+import { CounterService } from '../../services/counter.service';
 import { Router } from '@angular/router';
-import { CounterResponse } from '../models/responses/counter';
+import { CounterResponse } from '../../models/responses/counter';
 
 @Component({
   selector: 'app-counter-list',
