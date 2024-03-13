@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { CounterResponse, CounterRequest } from '../models/responses/counter';
 
 @Injectable({
     providedIn: 'root'
@@ -10,16 +11,16 @@ export class CounterService {
 
     constructor(private http: HttpClient) { }
 
-    getCounters(): Observable<any[]> {
-        return this.http.get<any[]>(`${this.baseUrl}`);
+    getCounters(): Observable<CounterResponse[]> {
+        return this.http.get<CounterResponse[]>(`${this.baseUrl}`);
     }
 
-    getCounterById(id: string): Observable<any> {
-        return this.http.get<any>(`${this.baseUrl}/${id}`);
+    getCounterById(id: string): Observable<CounterResponse> {
+        return this.http.get<CounterResponse>(`${this.baseUrl}/${id}`);
     }
 
-    createCounter(data: any): Observable<any> {
-        return this.http.post<any>(`${this.baseUrl}`, data);
+    createCounter(data: CounterRequest): Observable<CounterResponse> {
+        return this.http.post<CounterResponse>(`${this.baseUrl}`, data);
     }
 
     deleteCounter(id: string): Observable<any> {

@@ -63,9 +63,9 @@ import { JwtInterceptor } from './jwt.interceptor';
     NgxBarcodeModule
   ],
   providers: [
-    AuthGuard,
-    AuthGuardLogin,
-    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true }
+    // AuthGuard,
+    // AuthGuardLogin,
+    // { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true }
   ],
   bootstrap: [AppComponent]
 })

@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { CounterService } from '../services/counter.service';
 
+
 @Component({
   selector: 'app-input-counter',
   templateUrl: './input-counter.component.html',

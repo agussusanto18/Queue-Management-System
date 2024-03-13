@@ -3,6 +3,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { CounterService } from '../services/counter.service';
 import { Router } from '@angular/router';
+import { CounterResponse } from '../models/responses/counter';
 
 @Component({
   selector: 'app-counter-list',
@@ -11,7 +12,7 @@ import { Router } from '@angular/router';
 })
 export class CounterListComponent implements OnInit, AfterViewInit {
   displayedColumns: string[] = ['name', 'available', '_id'];
-  dataSource = new MatTableDataSource<any>();
+  dataSource = new MatTableDataSource<CounterResponse>();
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
@@ -26,8 +27,8 @@ export class CounterListComponent implements OnInit, AfterViewInit {
   }
 
   loadData(): void {
-    this.counterService.getCounters().subscribe(data => {
-      this.dataSource.data = data;
+    this.counterService.getCounters().subscribe((response: CounterResponse[]) => {
+      this.dataSource.data = response;
     });
   }
 

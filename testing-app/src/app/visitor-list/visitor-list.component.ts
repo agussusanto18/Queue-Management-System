@@ -4,6 +4,8 @@ import { MatTableDataSource, } from '@angular/material/table';
 import { CustomerService } from '../services/customer.service';
 import { Router } from '@angular/router';
 import { DatePipe } from '@angular/common';
+import { CustomerResponse } from '../models/responses/customer';
+
 
 @Component({
   selector: 'app-visitor-list',
@@ -28,7 +30,7 @@ export class VisitorListComponent implements OnInit {
     "_id"
   ];
 
-  dataSource = new MatTableDataSource<any>();
+  dataSource = new MatTableDataSource<CustomerResponse>();
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
   constructor(private router: Router, private customerService: CustomerService) { }
@@ -39,14 +41,13 @@ export class VisitorListComponent implements OnInit {
   }
 
   loadData() {
-    this.customerService.getCustomers().subscribe(data => {
-      this.dataSource.data = data;
+    this.customerService.getCustomers().subscribe((response: CustomerResponse[]) => {
+      this.dataSource.data = response;
       this.dataSource.paginator = this.paginator;
     });
   }
 
   delete(id: string) {
-    console.log(id);
     if (window.confirm('Do you want to go ahead?')) {
       this.customerService.deleteCustomer(id).subscribe((res) => {
         this.loadData();
@@ -69,7 +70,7 @@ export class VisitorListComponent implements OnInit {
 
   callCustomer(id: string){
     if (window.confirm('Do you want to call this Customer?')) {
-      this.customerService.callCustomer(id).subscribe((res) => {
+      this.customerService.callCustomer(id).subscribe((response: CustomerResponse) => {
         this.loadData();
         console.log(this.socket.send(`customer with id ${id} called`));
       });
