@@ -1,34 +1,37 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
 import { SignInResponse, SignInRequest } from '../../models/responses/signin';
+import { Store, select } from '@ngrx/store';
+import * as AuthActions from '../../store/actions/auth.action';
+import { selectIsLoggedIn, selectAuthError } from '../../store/selectors/auth.selector';
+import { Observable } from 'rxjs';
+import { ErrorResponse } from 'src/app/models/responses/error';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
-export class LoginComponent {
-  loginValid = true;
+export class LoginComponent implements OnInit{
+  loginValid: Observable<boolean>;
   credentials: SignInRequest = { email: '', password: '' };
+  error: Observable<ErrorResponse>;
 
-  constructor(private router: Router, private authService: AuthService) { }
+  constructor(private router: Router, private store: Store, private authService: AuthService) {}
+
+  ngOnInit(): void {
+    this.loginValid = this.store.pipe(select(selectIsLoggedIn));
+    this.error = this.store.pipe(select(selectAuthError));
+    console.log('********************');
+    this.error.subscribe((err) => {
+      console.log(err);
+      
+    });
+    
+  }
 
   login(): void {
-    this.authService.signin(this.credentials)
-      .subscribe(
-        (response: SignInResponse) => {
-          if (response) {
-            if (response.token) {
-              this.loginValid = true;
-              localStorage.setItem('jwt_token', response.token);
-              this.router.navigate(['/visitor-list']);
-            }
-          }
-        },
-        (error) => {          
-          this.loginValid = false;
-        }
-      );
+    this.store.dispatch(AuthActions.login(this.credentials));
   }
 }

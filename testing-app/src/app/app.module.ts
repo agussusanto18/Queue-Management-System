@@ -29,7 +29,20 @@ import { LoginComponent } from './pages/login/login.component';
 import { AuthGuard } from './auth.guard';
 import { AuthGuardLogin } from './auth-login.guard';
 import { JwtInterceptor } from './jwt.interceptor';
+import { EffectsModule } from '@ngrx/effects';
+import { authReducer } from './store/reducers'
+import { AuthEffects } from './store/effects'
+import { StoreModule } from '@ngrx/store';
+import { localStorageSync } from 'ngrx-store-localstorage'
 
+
+// Create a meta reducer to sync state with local storage
+export function localStorageSyncReducer(reducer) {
+  return localStorageSync({
+    keys: ['auth'],
+    rehydrate: true,
+  })(reducer);
+}
 
 @NgModule({
   declarations: [
@@ -60,7 +73,9 @@ import { JwtInterceptor } from './jwt.interceptor';
     FormsModule,
     MatGridListModule,
     ReactiveFormsModule,
-    NgxBarcodeModule
+    NgxBarcodeModule,
+    StoreModule.forRoot({ auth: authReducer }, { metaReducers: [localStorageSyncReducer] }),
+    EffectsModule.forRoot([AuthEffects])
   ],
   providers: [
     AuthGuard,

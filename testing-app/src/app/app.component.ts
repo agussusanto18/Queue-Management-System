@@ -2,6 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { Router } from '@angular/router';
 import { AuthService } from './services/auth.service';
+import { Store, select } from '@ngrx/store';
+import { Observable } from 'rxjs';
+import { selectIsLoggedIn, selectAuthToken } from './store/selectors/auth.selector';
+import * as AuthActions from './store/actions/auth.action';
 
 @Component({
   selector: 'app-root',
@@ -11,14 +15,25 @@ import { AuthService } from './services/auth.service';
 export class AppComponent implements OnInit{
   title = 'testing-app';
   currentDate: string;
+  isLoggedIn: Observable<boolean>;
+  token: Observable<string>;
 
   constructor(
     private router: Router,
-    private authService: AuthService
+    private store: Store
   ) { }
 
   ngOnInit() {
+    this.isLoggedIn = this.store.pipe(select(selectIsLoggedIn));
+    this.token = this.store.pipe(select(selectAuthToken));
+
+    this.token.subscribe((token) => {
+      console.log('**********');
+      console.log(token);
+    });
+
     this.updateCurrentDate();
+
     setInterval(() => {
       this.updateCurrentDate();
     }, 1000);
@@ -33,8 +48,7 @@ export class AppComponent implements OnInit{
     this.router.navigate(['/' + path]);
   }
 
-  logout(){
-    this.authService.logout();
-    this.router.navigate(['/']);
+  logout(): void {
+    this.store.dispatch(AuthActions.logout());
   }
 }
