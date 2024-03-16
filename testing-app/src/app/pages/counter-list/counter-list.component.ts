@@ -4,6 +4,10 @@ import { MatTableDataSource } from '@angular/material/table';
 import { CounterService } from '../../services/counter.service';
 import { Router } from '@angular/router';
 import { CounterResponse } from '../../models/responses/counter';
+import { Store, select } from '@ngrx/store';
+import * as CounterActions from '../../store/actions/counter.action';
+import { Observable } from 'rxjs';
+import { selectCounters } from '../../store/selectors/counter.selector';
 
 @Component({
   selector: 'app-counter-list',
@@ -13,30 +17,28 @@ import { CounterResponse } from '../../models/responses/counter';
 export class CounterListComponent implements OnInit, AfterViewInit {
   displayedColumns: string[] = ['name', 'available', '_id'];
   dataSource = new MatTableDataSource<CounterResponse>();
+  counters: Observable<CounterResponse[]>;
+  
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
-  constructor(private router: Router, private counterService: CounterService) { }
+  constructor(private router: Router, private store: Store, private counterService: CounterService) { }
 
   ngOnInit(): void {
-    this.loadData();
+    this.store.dispatch(CounterActions.counter());
+    this.counters = this.store.pipe(select(selectCounters));
+    this.counters.subscribe((counterList) => {
+      this.dataSource.data = counterList;
+    });
   }
 
   ngAfterViewInit(): void {
     this.dataSource.paginator = this.paginator;
   }
 
-  loadData(): void {
-    this.counterService.getCounters().subscribe((response: CounterResponse[]) => {
-      this.dataSource.data = response;
-    });
-  }
-
   delete(id: string): void {
     if (window.confirm('Do you want to proceed?')) {
-      this.counterService.deleteCounter(id).subscribe(() => {
-        this.loadData();
-      });
+      this.store.dispatch(CounterActions.deleteCounter({ id }));
     }
   }
 

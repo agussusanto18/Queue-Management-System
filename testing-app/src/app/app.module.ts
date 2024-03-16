@@ -30,8 +30,8 @@ import { AuthGuard } from './auth.guard';
 import { AuthGuardLogin } from './auth-login.guard';
 import { JwtInterceptor } from './jwt.interceptor';
 import { EffectsModule } from '@ngrx/effects';
-import { authReducer } from './store/reducers'
-import { AuthEffects } from './store/effects'
+import { authReducer, counterReducer } from './store/reducers'
+import { AuthEffects, CounterEffects } from './store/effects'
 import { StoreModule } from '@ngrx/store';
 import { localStorageSync } from 'ngrx-store-localstorage'
 
@@ -74,8 +74,8 @@ export function localStorageSyncReducer(reducer) {
     MatGridListModule,
     ReactiveFormsModule,
     NgxBarcodeModule,
-    StoreModule.forRoot({ auth: authReducer }, { metaReducers: [localStorageSyncReducer] }),
-    EffectsModule.forRoot([AuthEffects])
+    StoreModule.forRoot({ auth: authReducer, counter: counterReducer }, { metaReducers: [localStorageSyncReducer] }),
+    EffectsModule.forRoot([AuthEffects, CounterEffects])
   ],
   providers: [
     AuthGuard,

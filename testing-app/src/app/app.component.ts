@@ -27,11 +27,6 @@ export class AppComponent implements OnInit{
     this.isLoggedIn = this.store.pipe(select(selectIsLoggedIn));
     this.token = this.store.pipe(select(selectAuthToken));
 
-    this.token.subscribe((token) => {
-      console.log('**********');
-      console.log(token);
-    });
-
     this.updateCurrentDate();
 
     setInterval(() => {

@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { CounterService } from '../../services/counter.service';
-
+import { Store } from '@ngrx/store';
+import * as CounterActions from '../../store/actions/counter.action';
 
 @Component({
   selector: 'app-input-counter',
@@ -13,7 +14,7 @@ export class InputCounterComponent implements OnInit {
 
   counterForm: FormGroup;
 
-  constructor(private router: Router, private formBuilder: FormBuilder, private counterService: CounterService) { }
+  constructor(private store: Store, private formBuilder: FormBuilder, private counterService: CounterService) { }
 
   ngOnInit(): void {
     this.counterForm = this.formBuilder.group({
@@ -29,12 +30,7 @@ export class InputCounterComponent implements OnInit {
   }
 
   create(): void {
-    this.counterService.createCounter(this.counterForm.value).subscribe(() => {
-      this.router.navigate(['/counter-list']);
-    }, err => {
-      console.log(err);
-      alert('An error occured');
-    });
+    this.store.dispatch(CounterActions.createCounter(this.counterForm.value));
   }
 
 }

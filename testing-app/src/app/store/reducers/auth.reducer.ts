@@ -1,6 +1,6 @@
 import {createReducer, on} from '@ngrx/store';
 import * as AuthActions from '../actions/auth.action';
-import { ErrorResponse } from 'src/app/models/responses/error';
+import { ErrorResponse } from '../../models/responses/error';
 
 export interface AuthState {
     loggedIn: boolean;

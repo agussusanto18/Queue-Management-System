@@ -23,12 +23,6 @@ export class LoginComponent implements OnInit{
   ngOnInit(): void {
     this.loginValid = this.store.pipe(select(selectIsLoggedIn));
     this.error = this.store.pipe(select(selectAuthError));
-    console.log('********************');
-    this.error.subscribe((err) => {
-      console.log(err);
-      
-    });
-    
   }
 
   login(): void {
