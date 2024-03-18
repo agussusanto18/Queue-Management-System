@@ -3,6 +3,13 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { CustomerService } from '../../services/customer.service';
 import { CounterService } from '../../services/counter.service';
+import { Store, select } from '@ngrx/store';
+import * as CustomerActions from '../../store/actions/customer.action';
+import * as CounterActions from '../../store/actions/counter.action';
+import { Observable } from 'rxjs';
+import { CounterResponse } from 'src/app/models/responses/counter';
+import { selectCounters } from '../../store/selectors/counter.selector';
+
 
 @Component({
   selector: 'app-input-visitor-details',
@@ -11,13 +18,13 @@ import { CounterService } from '../../services/counter.service';
 })
 export class InputVisitorDetailsComponent implements OnInit {
   customerForm: FormGroup;
+  counterObserver: Observable<CounterResponse[]>;
   counters: any[];
 
   constructor(
+    private store: Store,
     private router: Router,
-    private formBuilder: FormBuilder,
-    private customerService: CustomerService,
-    private counterService: CounterService
+    private formBuilder: FormBuilder
   ) { }
 
   ngOnInit(): void {
@@ -54,20 +61,14 @@ export class InputVisitorDetailsComponent implements OnInit {
   }
 
   private createCustomer(): void {
-    this.customerService.createCustomer(this.customerForm.value).subscribe(
-      () => {
-        this.router.navigate(['/visitor-list']);
-      },
-      err => {
-        console.error(err);
-        alert('An error occurred');
-      }
-    );
+    this.store.dispatch(CustomerActions.createCustomer(this.customerForm.value));
   }
 
   loadDataCounters(): void {
-    this.counterService.getCounters().subscribe(data => {
-      this.counters = data;
+    this.store.dispatch(CounterActions.counter());
+    this.counterObserver = this.store.pipe(select(selectCounters));
+    this.counterObserver.subscribe((counterList) => {
+      this.counters = counterList;
     });
   }
 

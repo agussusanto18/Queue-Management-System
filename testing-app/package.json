@@ -25,6 +25,7 @@
     "@angular/router": "~10.0.5",
     "@ngrx/effects": "^10.1.2",
     "@ngrx/store": "^10.1.2",
+    "@ngrx/store-devtools": "^10.1.2",
     "angular-barcode": "^1.2.0",
     "moment": "^2.29.1",
     "ngrx-store-localstorage": "^10.1.2",

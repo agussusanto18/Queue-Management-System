@@ -5,6 +5,10 @@ import { CustomerService } from '../../services/customer.service';
 import { Router } from '@angular/router';
 import { DatePipe } from '@angular/common';
 import { CustomerResponse } from '../../models/responses/customer';
+import { Store, select } from '@ngrx/store';
+import * as CustomerAction from '../../store/actions/customer.action';
+import { Observable } from 'rxjs';
+import { selectCustomers } from '../../store/selectors/customer.selector';
 
 
 @Component({
@@ -12,10 +16,11 @@ import { CustomerResponse } from '../../models/responses/customer';
   templateUrl: './visitor-list.component.html',
   styleUrls: ['./visitor-list.component.css'],
 })
-export class VisitorListComponent implements OnInit {
+export class VisitorListComponent implements OnInit, AfterViewInit {
 
   private socket: WebSocket;
   private readonly SERVER_URL = 'ws://127.0.0.1:3000';
+  customers: Observable<CustomerResponse[]>;
 
   displayedColumns: string[] = [
     "counter",
@@ -31,27 +36,31 @@ export class VisitorListComponent implements OnInit {
   ];
 
   dataSource = new MatTableDataSource<CustomerResponse>();
+
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
-  constructor(private router: Router, private customerService: CustomerService) { }
+  constructor(private router: Router, private store: Store, private customerService: CustomerService) { }
 
   ngOnInit(): void {
     this.socket = new WebSocket(this.SERVER_URL);
     this.loadData();
   }
 
+  ngAfterViewInit(): void {
+    this.dataSource.paginator = this.paginator;
+  }
+
   loadData() {
-    this.customerService.getCustomers().subscribe((response: CustomerResponse[]) => {
-      this.dataSource.data = response;
-      this.dataSource.paginator = this.paginator;
+    this.store.dispatch(CustomerAction.customer());
+    this.customers = this.store.pipe(select(selectCustomers));
+    this.customers.subscribe((customerList) => {
+        this.dataSource.data = customerList;
     });
   }
 
   delete(id: string) {
     if (window.confirm('Do you want to go ahead?')) {
-      this.customerService.deleteCustomer(id).subscribe((res) => {
-        this.loadData();
-      })
+      this.store.dispatch(CustomerAction.deleteCustomer({ id }));
     }
   }
 
@@ -68,12 +77,9 @@ export class VisitorListComponent implements OnInit {
     return datePipe.transform(date, timeFormat);
   }
 
-  callCustomer(id: string){
+  callCustomer(id: string) {
     if (window.confirm('Do you want to call this Customer?')) {
-      this.customerService.callCustomer(id).subscribe((response: CustomerResponse) => {
-        this.loadData();
-        console.log(this.socket.send(`customer with id ${id} called`));
-      });
+      this.store.dispatch(CustomerAction.callCustomer({ id }));
     }
   }
 
