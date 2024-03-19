@@ -1,5 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { CustomerService } from '../../services/customer.service';
+import { Store, select } from '@ngrx/store';
+import * as CustomerActions from '../../store/actions/customer.action';
+import { selectUncalledCustomers, selectCalledCustomer } from '../../store/selectors/customer.selector';
+import { CustomerResponse } from 'src/app/models/responses/customer';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-home',
@@ -7,12 +12,14 @@ import { CustomerService } from '../../services/customer.service';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
-  customers: any[];
-  calledCustomer: any;
+  customers: CustomerResponse[];
+  calledCustomerObserver: Observable<CustomerResponse>;
+  calledCustomer: CustomerResponse;
+
   private socket: WebSocket;
   private readonly SERVER_URL = 'ws://127.0.0.1:3000';
 
-  constructor(private customerService: CustomerService) { }
+  constructor(private store: Store) { }
 
   ngOnInit(): void {
     this.socket = new WebSocket(this.SERVER_URL);
@@ -27,15 +34,18 @@ export class HomeComponent implements OnInit {
   }
 
   loadCustomers(): void {
-    this.customerService.getUncalledCustomers().subscribe(data => {
-      this.customers = data;
-    });
+    this.store.dispatch(CustomerActions.getUncalledCustomer());
+    this.store.pipe(select(selectUncalledCustomers)).subscribe((uncalledCustomers) => {
+      this.customers = uncalledCustomers;
+    })
   }
 
   loadCalledCustomer(): void {
-    this.customerService.getCalledCustomer().subscribe(data => {
-      if (data.callId > 0){
-        this.calledCustomer = data
+    this.store.dispatch(CustomerActions.getCalledCustomer());
+    this.calledCustomerObserver = this.store.pipe(select(selectCalledCustomer));
+    this.calledCustomerObserver.subscribe(customer => {
+      if (customer.callId > 0) {
+        this.calledCustomer = customer
       }
     });
   }

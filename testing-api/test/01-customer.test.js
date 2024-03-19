@@ -1,33 +1,19 @@
 const request = require('supertest');
-const mongoose = require('mongoose');
-const config = require('../config/config-test'); // Adjust the path as needed
 const app = require('../app');
 const Customer = require('../models/Customer');
 const Counter = require('../models/Counter');
+const { setupTestEnvironment, teardownTestEnvironment } = require('./test-setup');
 
-let isConnected = false;
-
-async function connectToDatabase() {
-    if (!isConnected) {
-        await mongoose.connect(config.database.connectionString, {
-            useNewUrlParser: true,
-            useUnifiedTopology: true
-        });
-        isConnected = true;
-    }
-}
 
 // Close existing database connection before running tests
 before(async () => {
-    await mongoose.disconnect();
-    await connectToDatabase();
+    await setupTestEnvironment();
     await setupData();
 });
 
 // Close database connection after running tests
 after(async () => {
-    await mongoose.connection.dropDatabase();
-    await mongoose.disconnect();
+    await teardownTestEnvironment();
 });
 
 describe('Customer API Tests', function () {

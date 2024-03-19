@@ -18,3 +18,11 @@ export const createCustomerFailure = createAction('[Customer] Create Customer Fa
 export const callCustomer = createAction('[Customer] Call Customer', props<{ id: string }>());
 export const callCustomerSuccess = createAction('[Customer] Call Customer Success', props<CustomerResponse>());
 export const callCustomerFailure = createAction('[Customer] Call Customer Failure', props<ErrorResponse>());
+
+export const getUncalledCustomer = createAction('[Customer] Uncalled Customer');
+export const getUncalledCustomerSuccess = createAction('[Customer] Uncalled Customer Success', props<{ uncalledCustomers: CustomerResponse[] }>());
+export const getUncalledCustomerFailure = createAction('[Customer] Uncalled Customer Failure', props<ErrorResponse>());
+
+export const getCalledCustomer = createAction('[Customer] Called Customer');
+export const getCalledCustomerSuccess = createAction('[Customer] Called Customer Success', props<CustomerResponse>());
+export const getCalledCustomerFailure = createAction('[Customer] Called Customer Failure', props<ErrorResponse>());

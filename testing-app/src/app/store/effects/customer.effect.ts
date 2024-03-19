@@ -12,6 +12,8 @@ import { Store } from '@ngrx/store';
 
 @Injectable()
 export class CustomerEffects {
+    private socket: WebSocket
+    private readonly SERVER_URL = 'ws://127.0.0.1:3000';
 
     getCounters$ = createEffect(() => this.actions$.pipe(
         ofType(CustomerActions.customer),
@@ -86,8 +88,43 @@ export class CustomerEffects {
             )
         ),
         tap(() => {
+            this.socket.send(`customer is called`)
             this.store.dispatch(CustomerActions.customer())
         })
+    ));
+
+    getUncalledCustomer$ = createEffect(() => this.actions$.pipe(
+        ofType(CustomerActions.getUncalledCustomer),
+        mergeMap(() =>
+            this.customerService.getUncalledCustomers().pipe(
+                map((response) => {
+                    return CustomerActions.getUncalledCustomerSuccess({ uncalledCustomers: response})
+                }),
+                catchError(error => {
+                    const errorResponse: ErrorResponse = {
+                        message: error.error.error.message || 'There is something wrong, please try it later'
+                    };
+                    return of(CustomerActions.getUncalledCustomerFailure(errorResponse))
+                })
+            )
+        )
+    ));
+
+    getCalledCustomer$ = createEffect(() => this.actions$.pipe(
+        ofType(CustomerActions.getCalledCustomer),
+        mergeMap(() =>
+            this.customerService.getCalledCustomer().pipe(
+                map((response) => {
+                    return CustomerActions.getCalledCustomerSuccess(response)
+                }),
+                catchError(error => {
+                    const errorResponse: ErrorResponse = {
+                        message: error.error.error.message || 'There is something wrong, please try it later'
+                    };
+                    return of(CustomerActions.getCalledCustomerFailure(errorResponse))
+                })
+            )
+        )
     ));
 
     constructor(
@@ -95,5 +132,7 @@ export class CustomerEffects {
         private store: Store,
         private actions$: Actions,
         private customerService: CustomerService
-    ) { }
-}
+    ) {
+        this.socket = new WebSocket(this.SERVER_URL);
+     }
+}  
